@@ -1,18 +1,20 @@
 FROM debian:stable
 
+MAINTAINER Phocean <jc@phocean.net>
+
+ARG WRITE_PASSWORD
+
 # Samba
-RUN apt-get update && apt-get install -yq samba gettext quota quotatool
+RUN apt-get update && apt-get install -yq samba gettext quota quotatool && rm -rf /var/lib/apt/lists/*
 
 ADD conf/samba/smb.conf /etc/samba/smb.conf
 
-ENV WRITE_PASSWORD eeShee3eiz
-
-RUN useradd -c "Guest User" -d /dev/null -s /bin/false eleve
-RUN useradd -c "Write Samba User" -d /dev/null -s /bin/false formateur
-RUN  printf "$WRITE_PASSWORD\n$WRITE_PASSWORD\n" | smbpasswd -a formateur -s
-RUN smbpasswd -a eleve -n
-RUN mkdir /srv/eleve; chown formateur:eleve /srv/eleve
-RUN mkdir /srv/depot; chown formateur:eleve /srv/depot; chmod 775 /srv/depot
+RUN useradd -c "Guest User" -d /dev/null -s /bin/false guest
+RUN useradd -c "Write Samba User" -d /dev/null -s /bin/false master
+RUN  printf "$WRITE_PASSWORD\n$WRITE_PASSWORD\n" | smbpasswd -a master -s
+RUN smbpasswd -a guest -n
+RUN mkdir /srv/share; chown master:guest /srv/share
+RUN mkdir /srv/upload; chown master:guest /srv/upload; chmod 775 /srv/upload
 
 EXPOSE 445
 
