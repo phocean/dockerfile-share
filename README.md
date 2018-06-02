@@ -7,7 +7,7 @@ First, adjust the configuration file with the shares you wish to provide.
 Then, build with setting your custom password for write permissions:
 
 ```
-docker run -t phocean/share --build-arg WRITE_PASSWORD=mysecret123 .
+docker build -t phocean/share --build-arg WRITE_PASSWORD=mysecret123 .
 ```
 
 # Run
