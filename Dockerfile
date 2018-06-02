@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM ubuntu:bionic
 
 MAINTAINER Phocean <jc@phocean.net>
 
